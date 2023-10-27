@@ -1,2 +1,6 @@
-# ethereum_research
-Research for Waylon + Colin alongside the EF.
+# Ethereum Research
+A single repository that has:
+- All of our relevant knowledge dumped.
+- Resources.
+- Code examples.
+- Schedule + weekly accomplishments.

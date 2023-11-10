@@ -1,6 +1,3 @@
-book
-
-
-# Added by cargo
-
-/target
+journal/book
+poseidon/target
+target/

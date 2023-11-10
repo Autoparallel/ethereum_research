@@ -8,7 +8,7 @@ version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3b2e69442aa5628ea6951fa33e24efe8313f4321a91bd729fc2f75bdfc858570"
 dependencies = [
- "num-bigint",
+ "num-bigint 0.3.3",
  "num-integer",
  "num-traits",
 ]
@@ -54,6 +54,12 @@ dependencies = [
  "serde",
  "thiserror",
 ]
+
+[[package]]
+name = "bit-vec"
+version = "0.6.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "349f9b6a179ed607305526ca489b34ad0a41aed5f7980fa90eb03160b69598fb"
 
 [[package]]
 name = "bitvec"
@@ -158,16 +164,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "bd63582de2b59ea1aa48d7c1941b5d87618d95484397521b3acdfa0e1e9f5e45"
 
 [[package]]
-name = "ethereum_research"
-version = "0.1.0"
-dependencies = [
- "blstrs",
- "ff",
- "neptune",
- "typenum",
-]
-
-[[package]]
 name = "ff"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -188,7 +184,7 @@ checksum = "e9f54704be45ed286151c5e11531316eaef5b8f5af7d597b806fdb8af108d84a"
 dependencies = [
  "addchain",
  "cfg-if",
- "num-bigint",
+ "num-bigint 0.3.3",
  "num-integer",
  "num-traits",
  "proc-macro2",
@@ -298,6 +294,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "num-bigint"
+version = "0.4.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "608e7659b5c3d7cba262d894801b9ec9d00de989e8a82bd4bef91d08da45cdc0"
+dependencies = [
+ "autocfg",
+ "num-integer",
+ "num-traits",
+]
+
+[[package]]
 name = "num-integer"
 version = "0.1.45"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -351,6 +358,20 @@ dependencies = [
  "serde",
  "static_assertions",
  "subtle",
+]
+
+[[package]]
+name = "poseidon"
+version = "0.1.0"
+dependencies = [
+ "bit-vec",
+ "blstrs",
+ "ff",
+ "lazy_static",
+ "neptune",
+ "num-bigint 0.4.4",
+ "num-traits",
+ "typenum",
 ]
 
 [[package]]
@@ -435,9 +456,9 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "subtle"
-version = "2.4.1"
+version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6bdef32e8150c2a081110b42772ffe7d7c9032b606bc226c8260fd97e0976601"
+checksum = "81cdd64d312baedb58e21336b31bc043b77e01cc99033ce76ef539f78e965ebc"
 
 [[package]]
 name = "syn"

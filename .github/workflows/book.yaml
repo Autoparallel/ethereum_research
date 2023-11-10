@@ -1,0 +1,84 @@
+name: book
+
+concurrency:
+  cancel-in-progress: true
+  group: ${{github.workflow}}-${{github.ref}}
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  merge_group:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: test
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install mdbook
+        run: |
+          mkdir mdbook
+          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.14/mdbook-v0.4.14-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook
+          echo `pwd`/mdbook >> $GITHUB_PATH
+
+      - name: Install mdbook-template
+        run: |
+          mkdir mdbook-template
+          curl -sSL https://github.com/sgoudham/mdbook-template/releases/latest/download/mdbook-template-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook-template
+          echo `pwd`/mdbook-template >> $GITHUB_PATH
+
+      - name: Run tests
+        run: mdbook test
+
+  lint:
+    runs-on: ubuntu-latest
+    name: lint
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install mdbook-linkcheck
+        run: |
+          mkdir mdbook-linkcheck
+          curl -sSL -o mdbook-linkcheck.zip https://github.com/Michael-F-Bryan/mdbook-linkcheck/releases/latest/download/mdbook-linkcheck.x86_64-unknown-linux-gnu.zip
+          unzip mdbook-linkcheck.zip -d ./mdbook-linkcheck
+          chmod +x `pwd`/mdbook-linkcheck/mdbook-linkcheck
+          echo `pwd`/mdbook-linkcheck >> $GITHUB_PATH
+
+      - name: Run linkcheck
+        run: mdbook-linkcheck --standalone
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install toolchain
+        uses: dtolnay/rust-toolchain@nightly
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+
+      - name: Install mdbook
+        run: |
+          mkdir mdbook
+          curl -sSL https://github.com/rust-lang/mdBook/releases/download/v0.4.14/mdbook-v0.4.14-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook
+          echo `pwd`/mdbook >> $GITHUB_PATH
+
+      - name: Install mdbook-template
+        run: |
+          mkdir mdbook-template
+          curl -sSL https://github.com/sgoudham/mdbook-template/releases/latest/download/mdbook-template-x86_64-unknown-linux-gnu.tar.gz | tar -xz --directory=./mdbook-template
+          echo `pwd`/mdbook-template >> $GITHUB_PATH
+
+      - name: Build book
+        run: mdbook build documentation
+
+      - name: Build docs
+        run: RUSTDOCFLAGS="--enable-index-page -Zunstable-options" cargo +nightly doc --all --no-deps

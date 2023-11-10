@@ -12,6 +12,8 @@ Below is a list of resources that have been helpful in learning the material for
 
 [POSEIDON](https://eprint.iacr.org/2019/458.pdf)
 
+[GROBNERBASIS](https://eprint.iacr.org/2021/870.pdf)
+
 [ZEROMORPH](https://eprint.iacr.org/2023/917.pdf)
 
 [DEEP FRI](https://eprint.iacr.org/2019/336.pdf)

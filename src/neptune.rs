@@ -5,6 +5,7 @@ use typenum::U2;
 
 fn neptune() {
     // Define the constants for the Poseidon hash function
+    // the posdeidon constants are generic over the field `[Fr]` and the number of rounds [U2
     let constants: PoseidonConstants<Fr, U2> = PoseidonConstants::new_constant_length(0);
 
     // Create a new Sponge object

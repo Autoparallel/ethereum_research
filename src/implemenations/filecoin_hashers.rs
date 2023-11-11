@@ -1,12 +1,27 @@
-use filecoin_hashers::poseidon::PoseidonHasher;
+use filecoin_hashers::poseidon::{PoseidonDomain, PoseidonFunction};
+use blstrs::Scalar as Fr;
+use ff::{Field, PrimeField};
+use merkletree::{
+    hash::{Algorithm as LightAlgorithm, Hashable},
+    merkle::{Element, MerkleTree}, store::VecStore,
+};
+use generic_array::typenum::{marker_traits::Unsigned, U2};
 
 
 #[test]
-fn filecoin_hashers() {
-    let input_1 = Fr::from_str("1").unwrap();
-    let input_2 = Fr::from_str("3").unwrap();
-    println!("input_1: {:?}", input_1);
-    println!("input_2: {:?}", input_2);
-    let output = PoseidonHasher::hash2(&input_1, &input_2);
-    println!("output: {}", output);
+fn test_poseidon_hasher() {
+    let leaves = [
+        PoseidonDomain::from(Fr::ONE.to_repr()),
+        PoseidonDomain::from(Fr::ZERO.to_repr()),
+        PoseidonDomain::from(Fr::TWO_INV.to_repr()),
+    ];
+
+    let t = MerkleTree::<PoseidonDomain, PoseidonFunction, VecStore<_>, U2>::new(
+        leaves.iter().copied(),
+    )
+    .expect("merkle tree new failure");
+
+    
+
+    assert_eq!(t.leafs(), 3);
 }

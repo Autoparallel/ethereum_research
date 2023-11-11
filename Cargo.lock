@@ -772,6 +772,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "generic-array"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fe739944a5406424e080edccb6add95685130b9f160d5407c639c7df0c5836b0"
+dependencies = [
+ "typenum",
+]
+
+[[package]]
 name = "getrandom"
 version = "0.1.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1189,7 +1198,9 @@ dependencies = [
  "blstrs",
  "ff",
  "filecoin-hashers",
+ "generic-array 1.0.0",
  "lazy_static",
+ "merkletree",
  "neptune 13.0.0",
  "num-bigint 0.4.4",
  "num-traits",

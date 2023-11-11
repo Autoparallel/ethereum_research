@@ -1,7 +1,8 @@
+/// From scratch implementations of poseidon primitives for testing purposes.
 use num_bigint::BigUint;
 use num_traits::{One, Zero};
 
-pub mod neptune;
+pub mod implemenations;
 
 const FIELD_SIZE: u32 = 8;
 const STATE_SIZE: usize = 2;

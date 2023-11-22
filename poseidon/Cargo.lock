@@ -15,16 +15,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "349f9b6a179ed607305526ca489b34ad0a41aed5f7980fa90eb03160b69598fb"
 
 [[package]]
-name = "develop"
-version = "0.1.0"
-dependencies = [
- "bit-vec",
- "lazy_static",
- "num-bigint",
- "num-traits",
-]
-
-[[package]]
 name = "lazy_static"
 version = "1.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -58,4 +48,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "39e3200413f237f41ab11ad6d161bc7239c84dcb631773ccd7de3dfe4b5c267c"
 dependencies = [
  "autocfg",
+]
+
+[[package]]
+name = "poseidon"
+version = "0.1.0"
+dependencies = [
+ "bit-vec",
+ "lazy_static",
+ "num-bigint",
+ "num-traits",
 ]

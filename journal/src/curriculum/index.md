@@ -59,3 +59,17 @@ Underlying cryptography is much mathematics, and as a result, some mathematical 
 For example, we discuss prime numbers, factorization, and modular arithmetic.
 We can also build more involved structures on these, such as polynomials.
 We will lean towards discussing and evaluating Posiedon in the context of algebra and geometry as these views shed light on the additional structure that algebraic hash functions have and are less explored at large. 
+
+
+## Substitution-Permutation Networks
+A Substitution-Permutation Network (SPN) is a method used in block cipher design. It involves a series of linked operations, including substitution (replacing bits with other bits) and permutation (rearranging bits). This structure is known for its effectiveness in creating confusion and diffusion, important principles in cryptography.
+
+A Partial SPN (PSPN) differs from a full SPN in that the substitution step is not applied to all bits in each round. Instead, it substitutes only a subset of the bits, which can enhance efficiency while still maintaining a good level of security. This selective application of substitution is the key difference between PSPN and full SPN designs.
+
+## Maximum Distance Separable Matrix
+An MDS (Maximum Distance Separable) matrix is a concept in cryptography, particularly in block cipher design. It's used in the linear mixing step of cipher algorithms to ensure a high level of diffusion, meaning that a change in a single input bit will affect many output bits. This contributes to the cipher's security by making it resistant to certain types of cryptanalytic attacks. MDS matrices are designed so that any subset of rows (or columns) forms a linearly independent set, maximizing the spread of input differences across the cipher's state.
+
+The mathematical notion of linear independence refers to a set of vectors in which no vector can be represented as a linear combination of the others. This means that each vector adds a new dimension to the space spanned by the set. For example, in a three-dimensional space, three vectors are linearly independent if none of them lies in the plane formed by the other two. This concept is crucial in many areas of mathematics and is fundamental in understanding the behavior of systems of linear equations and transformations.
+
+## Hades construction
+The Hades design strategy, used in the Poseidon hash function, is a cryptographic approach that optimizes the trade-off between security and efficiency. It incorporates a mix of full and partial rounds within the hash function. Full rounds apply a non-linear operation (like an S-box) to all elements of the state, offering high security. Partial rounds, on the other hand, apply this operation to only a subset of the state elements, enhancing efficiency. This combination allows for maintaining strong cryptographic security while reducing the computational overhead typically associated with full rounds in every step. This design is particularly beneficial in contexts like zero-knowledge proofs, where efficiency is crucial without compromising security. The paper highlights how the choice of the MDS matrix in HADES significantly affects security against differential and linear attacks.

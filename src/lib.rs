@@ -1,6 +1,8 @@
 use num_bigint::BigUint;
 use num_traits::{One, Zero};
 
+pub mod neptune;
+
 const FIELD_SIZE: u32 = 8;
 const STATE_SIZE: usize = 2;
 const RATE: usize = STATE_SIZE - 1;

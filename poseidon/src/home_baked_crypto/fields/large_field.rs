@@ -10,18 +10,18 @@ impl FromStr for LargeField {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let chunks = str_to_fr::<4>(s);
+        let chunks = str_to_fr::<4, LargeField>(s);
         Ok(LargeField(chunks))
     }
 }
 
 impl From<LargeField> for String {
-    fn from(field: LargeField) -> Self {
-        let mut s = String::new();
-        for chunk in field.0.iter().rev() {
-            s.push_str(&format!("{:016x}", chunk));
+    fn from(element: LargeField) -> Self {
+        let mut bytes = vec![];
+        for chunk in element.0.iter() {
+            bytes.extend_from_slice(&chunk.to_le_bytes());
         }
-        s
+        BigUint::from_bytes_le(&bytes).to_str_radix(10)
     }
 }
 
@@ -33,13 +33,13 @@ mod tests {
     #[test]
     fn test_ff() {
         let a = LargeField::from_str("2").unwrap();
-        assert_eq!("0000000000000002", &String::from(a));
+        assert_eq!("2", &String::from(a));
 
         let b = LargeField::from_str(
             "21888242871839275222246405745257275088548364400416034343698204186575808495619",
         )
         .unwrap();
-        assert_eq!("000000000001c0d0", &String::from(b));
+        assert_eq!("2", &String::from(b));
 
         assert_eq!(&a, &b);
     }

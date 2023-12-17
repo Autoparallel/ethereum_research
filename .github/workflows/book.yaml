@@ -50,7 +50,7 @@ jobs:
           echo `pwd`/mdbook-linkcheck >> $GITHUB_PATH
 
       - name: Run linkcheck
-        run: mdbook-linkcheck --standalone
+        run: mdbook-linkcheck journal/
 
   build:
     runs-on: ubuntu-latest
@@ -78,7 +78,7 @@ jobs:
           echo `pwd`/mdbook-template >> $GITHUB_PATH
 
       - name: Build book
-        run: mdbook build
+        run: mdbook build journal/
 
       - name: Build docs
         run: RUSTDOCFLAGS="--enable-index-page -Zunstable-options" cargo +nightly doc --all --no-deps

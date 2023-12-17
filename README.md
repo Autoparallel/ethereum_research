@@ -1,5 +1,8 @@
 # Ethereum Research
-This repository is the culmination of work done by [Colin Roberts](https://github.com/Autoparallel) and [Waylon Jepsen](https://github.com/0xJepsen), supported by a small grant from the Ethereum Foundation. The goal of this project is to investigate the POSEIDON hash function closely. We aim to provide a comprehensive learning resource for the Poseidon hash function with a precise mathematical intuition on its function and security assumptions. This repository also serves as a playground to attack implementations of Poseidon with small field sizes to better understand the security assumptions of the hash function.
+This repository is the culmination of work done by [Colin Roberts](https://github.com/Autoparallel) and [Waylon Jepsen](https://github.com/0xJepsen), supported by a small grant from the Ethereum Foundation. 
+The goal of this project is to investigate the Poseidon hash function closely. 
+We aim to provide a comprehensive learning resource for the Poseidon hash function with a precise mathematical intuition on its function and security assumptions. 
+This repository also serves as a playground to attack implementations of Poseidon with small field sizes to better understand the security assumptions of the hash function.
 
 ## Repository Contents
 

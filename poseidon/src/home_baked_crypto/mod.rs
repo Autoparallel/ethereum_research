@@ -75,12 +75,12 @@ impl Poseidon {
 
     pub fn sbox(&self, n_rounds_f: usize, n_rounds_p: usize, state: &mut [Fr], i: usize) {
         if i < n_rounds_f / 2 || i >= n_rounds_f / 2 + n_rounds_p {
-        for state_elem in state.iter_mut() {
-            let aux = *state_elem;
-            state_elem.square();
-            state_elem.square();
-            state_elem.mul_assign(&aux);
-        }
+            for state_elem in state.iter_mut() {
+                let aux = *state_elem;
+                state_elem.square();
+                state_elem.square();
+                state_elem.mul_assign(&aux);
+            }
         } else {
             let aux = state[0];
             state[0].square();

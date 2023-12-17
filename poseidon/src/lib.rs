@@ -1,9 +1,10 @@
+#![allow(clippy::too_many_arguments)]
 /// From scratch implementations of poseidon primitives for testing purposes.
 use num_bigint::BigUint;
 use num_traits::Zero;
 
-pub mod implemenations;
 pub mod home_baked_crypto;
+pub mod implemenations;
 extern crate ff;
 
 // const FIELD_SIZE: u32 = 8;
@@ -17,7 +18,7 @@ lazy_static! {
     static ref FIELD_MODULUS: BigUint = BigUint::from(31u32);
 }
 
-fn permute(state: &mut Vec<BigUint>) {
+fn permute(state: &mut [BigUint]) {
     let mut new_state = BigUint::zero();
     for element in state.iter() {
         new_state += element;
@@ -28,7 +29,7 @@ fn permute(state: &mut Vec<BigUint>) {
     }
 }
 
-fn absorb(state: &mut Vec<BigUint>, input: &[BigUint]) {
+fn absorb(state: &mut [BigUint], input: &[BigUint]) {
     for block in input.chunks(RATE) {
         for (element, input) in state.iter_mut().zip(block) {
             *element += input;

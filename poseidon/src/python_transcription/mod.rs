@@ -5,7 +5,6 @@ use num_bigint::BigInt;
 use num_bigint::BigUint;
 use num_traits::{pow, One, ToPrimitive, Zero};
 
-
 pub struct Poseidon {
     prime_field_modulus: BigUint,
     // The security level measured in bits. Denoted `M` in the Poseidon paper.
@@ -41,7 +40,6 @@ impl Poseidon {
         rc_list: Option<Vec<BigInt>>,
         prime_bit_len: Option<BigInt>,
     ) -> Poseidon {
-
         if (alpha % (prime_modulus.clone() - BigUint::from(1u32))) != BigUint::one() {
             println!("Not available alpha");
             std::process::exit(1);
@@ -85,7 +83,8 @@ impl Poseidon {
 
         let mds_matrix = match mds_matrix {
             Some(matrix) => {
-                if matrix.len() != state_size.to_usize().unwrap() || matrix[0].len() != state_size.to_usize().unwrap()
+                if matrix.len() != state_size.to_usize().unwrap()
+                    || matrix[0].len() != state_size.to_usize().unwrap()
                 {
                     panic!("Invalid size of MDS matrix");
                 }
@@ -95,7 +94,10 @@ impl Poseidon {
             None => {
                 println!("Initialize MDS matrix");
                 // TODO: Implement rc.mds_matrix_generator
-                vec![vec![BigInt::zero(); state_size.to_usize().unwrap()]; state_size.to_usize().unwrap()]
+                vec![
+                    vec![BigInt::zero(); state_size.to_usize().unwrap()];
+                    state_size.to_usize().unwrap()
+                ]
             }
         };
 
@@ -203,8 +205,6 @@ impl Poseidon {
         self.partial_rounds();
 
         // Last full rounds
-        self.full_rounds();
-
-        return self.state[1].clone();
+        self.state[1].clone()
     }
 }

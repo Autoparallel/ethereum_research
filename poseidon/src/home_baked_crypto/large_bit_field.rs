@@ -1,12 +1,11 @@
 // Simplist rust implementation changed slightly from https://github.com/arnaucube/poseidon-rs
-use ff::*;
 use super::large_constants;
+use ff::*;
 
 #[derive(PrimeField)]
 #[PrimeFieldModulus = "21888242871839275222246405745257275088548364400416034343698204186575808495617"]
 #[PrimeFieldGenerator = "7"]
 pub struct Fr(FrRepr);
-
 
 #[derive(Debug)]
 pub struct Constants {

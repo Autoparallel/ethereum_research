@@ -1,7 +1,7 @@
 // Simplist rust implementation changed slightly from https://github.com/arnaucube/poseidon-rs
 extern crate rand;
-use ff::*;
 use super::large_constants;
+use ff::*;
 
 // this implementation uses the mersen prime 131071 for the modulus which is from 2^(18 - 1)
 // there are two failling tests, my current suspicion is that they might need their own constants for each field size
@@ -10,7 +10,6 @@ use super::large_constants;
 #[PrimeFieldModulus = "131071"]
 #[PrimeFieldGenerator = "3"]
 pub struct Fr(FrRepr);
-
 
 #[derive(Debug)]
 pub struct Constants {

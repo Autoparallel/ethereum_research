@@ -9,7 +9,6 @@ authors = ["Colin Robers", "Waylon Jepsen"]
 # For POSEIDON at home
 num-bigint = "0.4.4"
 num-traits = "0.2.17"
-bit-vec = "0.6.3"
 lazy_static = "1.4.0"
 
 # netptune 
@@ -30,3 +29,5 @@ starknet-crypto = { version = "0.6.1"}
 filecoin-hashers = { version = "11.1.0" }
 merkletree = { version = "0.23.0" }
 generic-array = { version = "1.0.0" }
+
+byteorder = "1.4.3"

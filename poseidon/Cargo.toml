@@ -29,8 +29,3 @@ starknet-crypto = { version = "0.6.1"}
 filecoin-hashers = { version = "11.1.0" }
 merkletree = { version = "0.23.0" }
 generic-array = { version = "1.0.0" }
-
-# For book
-mdbook = "0.4.35"
-cargo-make = "0.37.2"
-mdbook-katex = "0.5.8"

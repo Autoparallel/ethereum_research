@@ -3,6 +3,7 @@ use num_bigint::BigUint;
 use num_traits::{One, Zero};
 
 pub mod implemenations;
+pub mod home_baked_crypto;
 
 const FIELD_SIZE: u32 = 8;
 const STATE_SIZE: usize = 2;

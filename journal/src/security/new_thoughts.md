@@ -36,6 +36,9 @@ then we get a system that is ergodic.
 We will continuously explore the entire circle with equal probability over long enough periods of times (iterations).
 
 
+## Attacking POSEIDON with a Neural Network
+How would this work?
+
 ### Questions
 - Dynamical systems typically works over the reals $\R$, but Poseidon works over a finite field $\mathbb{F}_p$. How does this change things? Is there a way to think about Poseidon as a dynamical system over $\mathbb{F}_p$ that is meaningful? Even just focusing on the S-boxes, can we think of them as dynamical systems over $\mathbb{F}_p$ in a way that shows these are close to, or are, "chaotic"?
 - Also related was the notion of ergodicity. Can we think of Poseidon as an ergodic transformation over $\mathbb{F}_p$? What does this mean? Is this meaningful? What does this tell us about the security of Poseidon?

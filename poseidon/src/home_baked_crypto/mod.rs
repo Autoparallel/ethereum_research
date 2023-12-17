@@ -1,14 +1,12 @@
-// https://github.com/arnaucube/poseidon-rs
+// Simplist rust implementation changed slightly from https://github.com/arnaucube/poseidon-rs
 extern crate rand;
-extern crate ff;
-
-use ff::PrimeField;
-
+use ff::*;
 
 #[derive(PrimeField)]
 #[PrimeFieldModulus = "21888242871839275222246405745257275088548364400416034343698204186575808495617"]
 #[PrimeFieldGenerator = "7"]
 pub struct Fr(FrRepr);
+
 mod constants;
 
 #[derive(Debug)]
@@ -21,21 +19,22 @@ pub struct Constants {
 pub fn load_constants() -> Constants {
     let (c_str, m_str) = constants::constants();
     let mut c: Vec<Vec<Fr>> = Vec::new();
-    for i in 0..c_str.len() {
+    for c_str_i in c_str.iter() {
         let mut cci: Vec<Fr> = Vec::new();
-        for j in 0..c_str[i].len() {
-            let b: Fr = Fr::from_str(c_str[i][j]).unwrap();
+        for c_str_ij in c_str_i.iter() {
+            let b: Fr = Fr::from_str(c_str_ij).unwrap();
             cci.push(b);
         }
         c.push(cci);
     }
+
     let mut m: Vec<Vec<Vec<Fr>>> = Vec::new();
-    for i in 0..m_str.len() {
+    for m_str_i in m_str.iter() {
         let mut mi: Vec<Vec<Fr>> = Vec::new();
-        for j in 0..m_str[i].len() {
+        for m_str_ij in m_str_i.iter() {
             let mut mij: Vec<Fr> = Vec::new();
-            for k in 0..m_str[i][j].len() {
-                let b: Fr = Fr::from_str(m_str[i][j][k]).unwrap();
+            for m_str_ijk in m_str_ij.iter() {
+                let b: Fr = Fr::from_str(m_str_ijk).unwrap();
                 mij.push(b);
             }
             mi.push(mij);
@@ -55,26 +54,33 @@ pub fn load_constants() -> Constants {
 pub struct Poseidon {
     constants: Constants,
 }
+
+impl Default for Poseidon {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl Poseidon {
     pub fn new() -> Poseidon {
         Poseidon {
             constants: load_constants(),
         }
     }
-    pub fn ark(&self, state: &mut Vec<Fr>, c: &Vec<Fr>, it: usize) {
+    pub fn ark(&self, state: &mut Vec<Fr>, c: &[Fr], it: usize) {
         for i in 0..state.len() {
             state[i].add_assign(&c[it + i]);
         }
     }
 
-    pub fn sbox(&self, n_rounds_f: usize, n_rounds_p: usize, state: &mut Vec<Fr>, i: usize) {
+    pub fn sbox(&self, n_rounds_f: usize, n_rounds_p: usize, state: &mut [Fr], i: usize) {
         if i < n_rounds_f / 2 || i >= n_rounds_f / 2 + n_rounds_p {
-            for j in 0..state.len() {
-                let aux = state[j];
-                state[j].square();
-                state[j].square();
-                state[j].mul_assign(&aux);
-            }
+        for state_elem in state.iter_mut() {
+            let aux = *state_elem;
+            state_elem.square();
+            state_elem.square();
+            state_elem.mul_assign(&aux);
+        }
         } else {
             let aux = state[0];
             state[0].square();
@@ -83,13 +89,13 @@ impl Poseidon {
         }
     }
 
-    pub fn mix(&self, state: &Vec<Fr>, m: &Vec<Vec<Fr>>) -> Vec<Fr> {
+    pub fn mix(&self, state: &Vec<Fr>, m: &[Vec<Fr>]) -> Vec<Fr> {
         let mut new_state: Vec<Fr> = Vec::new();
         for i in 0..state.len() {
             new_state.push(Fr::zero());
-            for j in 0..state.len() {
-                let mut mij = m[i][j];
-                mij.mul_assign(&state[j]);
+            for (state_elem, mij) in state.iter().zip(&m[i]) {
+                let mut mij = *mij;
+                mij.mul_assign(state_elem);
                 new_state[i].add_assign(&mij);
             }
         }
@@ -98,12 +104,11 @@ impl Poseidon {
 
     pub fn hash(&self, inp: Vec<Fr>) -> Result<Fr, String> {
         let t = inp.len() + 1;
-        // if inp.len() == 0 || inp.len() >= self.constants.n_rounds_p.len() - 1 {
         if inp.is_empty() || inp.len() > self.constants.n_rounds_p.len() {
             return Err("Wrong inputs length".to_string());
         }
-        let n_rounds_f = self.constants.n_rounds_f.clone();
-        let n_rounds_p = self.constants.n_rounds_p[t - 2].clone();
+        let n_rounds_f = self.constants.n_rounds_f;
+        let n_rounds_p = self.constants.n_rounds_p[t - 2];
 
         let mut state = vec![Fr::zero(); t];
         state[1..].clone_from_slice(&inp);

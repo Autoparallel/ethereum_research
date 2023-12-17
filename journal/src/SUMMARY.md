@@ -20,7 +20,6 @@
     - [New Ideas for attacks](./security/new_thoughts.md)
 
 - [Resources](./resources/index.md)
-    - [Papers and books](./resources/papers_books.md)
+    - [Blogs and Code](./resources/blogs_and_code.md)
     - [Videos and talks](./resources/videos_talks.md)
     - [People and courses](./resources/people_courses.md)
-    - [Projects and tools](./resources/projects_tools.md)

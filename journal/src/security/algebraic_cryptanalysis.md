@@ -21,4 +21,4 @@ The last step in a Gröbner basis attack typically involves solving the system o
 
 I think this is the best resource on Gröbner bases attacks
 
-> [Sauer, J. F., & Szepieniec, A. SoK: Gröbner Basis Algorithms for Arithmetization Oriented Ciphers](https://eprint.iacr.org/2021/870.pdf)
+> [Sauer, J. F., & Szepieniec, A. (2021). Sok: Gröbner basis algorithms for arithmetization oriented ciphers. Cryptology ePrint Archive.](https://eprint.iacr.org/2021/870.pdf)

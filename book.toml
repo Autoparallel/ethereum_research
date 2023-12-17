@@ -3,7 +3,7 @@ authors = ["Colin Roberts"]
 language = "en"
 multilingual = false
 src = "journal/src"
-title = "POSEIDON Journal"
+title = "Poseidon Journal"
 
 [output.html]
 # theme = "rust"

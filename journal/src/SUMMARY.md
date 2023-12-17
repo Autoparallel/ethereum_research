@@ -11,6 +11,7 @@
     - [Permutation](./poseidon/permutation.md)
     - [S-Boxes](./poseidon/s-boxes.md)
     - [Linear Layer](./poseidon/linear_layer.md)
+    - [Round Constants](./poseidon/round_constants.md)
     
 - [Security](./security/index.md)
     - [Linear Cryptanalysis](./security/linear_cryptanalysis.md)

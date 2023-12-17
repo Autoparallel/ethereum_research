@@ -37,3 +37,21 @@ In cryptographic terms, this sponge is the internal **state** of the hash functi
 
 3. **Security:**
    - The mixing and transformation processes in the sponge ensure that even a small change in the input (like adding a drop of differently colored water) leads to a completely different and unpredictable output, which is a crucial aspect of secure hash functions.
+
+## Sponge Construction
+The [Wikipedia: Sponge function article](https://en.wikipedia.org/wiki/Sponge_function) breaks down the sponge nicely, but it does so for sponges that absorb bits rather than elements of a finite field.
+From this reference and the [Poseidon paper](https://eprint.iacr.org/2019/458.pdf), we can outline the sponge used in Poseidon making the necessary changes in terminology and notation.
+
+The sponge construction is defined by the following parameters:
+- The size of the *chunks* which are the elements of the finite field $\mathbb{F}_q$;
+- The size of the state $S$ which is the number of chunks in the sponge;
+   - The rate $r$ which is the number of chunks absorbed in each step;
+   - The capacity $c$ which is the number of chunks stored in the sponge in each step;
+   - Note that at any given point in the process, we have $S = r + c$.
+- A function $f \colon \mathbb{F}_q^S \to \mathbb{F}_q^S$ which is the permutation applied to the sponge;
+   - The rate can then be described via the `bits/perm` ratio which is the number of bits in the state divided by the number of bits in the permutation.
+- A padding function P (DO WE HAVE THIS IN THE POSEIDON PAPER?)
+
+Looking at this diagramatically, we have the following:
+![Sponge Diagram](./figures/sponge.png)
+

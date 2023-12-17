@@ -6,7 +6,7 @@ src = "journal/src"
 title = "POSEIDON Journal"
 
 [output.html]
-theme = "rust"
+# theme = "rust"
 
 [preprocessor.katex]
 after = ["links"]

@@ -76,4 +76,4 @@ jobs:
           echo `pwd`/mdbook-template >> $GITHUB_PATH
 
       - name: Build book
-        run: mdbook build journal/
+        run: mdbook build

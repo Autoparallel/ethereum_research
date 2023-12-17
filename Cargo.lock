@@ -20,6 +20,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "addchain"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3b2e69442aa5628ea6951fa33e24efe8313f4321a91bd729fc2f75bdfc858570"
+dependencies = [
+ "num-bigint 0.3.3",
+ "num-integer",
+ "num-traits",
+]
+
+[[package]]
 name = "alga"
 version = "0.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -651,20 +662,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ded41244b729663b1e574f1b4fb731469f69f79c17667b5d776b16cda0479449"
 dependencies = [
  "bitvec",
+ "byteorder",
+ "ff_derive",
  "rand_core 0.6.4",
  "subtle",
-]
-
-[[package]]
-name = "ff_ce"
-version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d3a682c12d0cc98a32ab7540401a5ea1ed21d11571eea11d5829cd721f85ff0"
-dependencies = [
- "byteorder",
- "ff_derive_ce 0.8.0",
- "hex",
- "rand 0.4.6",
 ]
 
 [[package]]
@@ -674,18 +675,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "38107cbd8bac0d907d7e7513c9f68c95adbda9e6f6f6bdf3f5111c6ecac4fe47"
 dependencies = [
  "byteorder",
- "ff_derive_ce 0.9.3",
+ "ff_derive_ce",
  "hex",
  "rand 0.4.6",
 ]
 
 [[package]]
-name = "ff_derive_ce"
-version = "0.8.0"
+name = "ff_derive"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "50c052fa6d4c2f12305ec364bfb8ef884836f3f61ea015b202372ff996d1ac4b"
+checksum = "e9f54704be45ed286151c5e11531316eaef5b8f5af7d597b806fdb8af108d84a"
 dependencies = [
- "num-bigint 0.2.6",
+ "addchain",
+ "cfg-if",
+ "num-bigint 0.3.3",
  "num-integer",
  "num-traits",
  "proc-macro2",
@@ -1046,6 +1049,17 @@ dependencies = [
 
 [[package]]
 name = "num-bigint"
+version = "0.3.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5f6f7833f2cbf2360a6cfd58cd41a53aa7a90bd4c202f5b1c7dd2ed73c57b2c3"
+dependencies = [
+ "autocfg",
+ "num-integer",
+ "num-traits",
+]
+
+[[package]]
+name = "num-bigint"
 version = "0.4.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "608e7659b5c3d7cba262d894801b9ec9d00de989e8a82bd4bef91d08da45cdc0"
@@ -1143,7 +1157,7 @@ checksum = "1e753515675eaaa98071d814bea0148ae8c9d7995fa0531bf222e7857e3f1759"
 dependencies = [
  "byteorder",
  "cfg-if",
- "ff_ce 0.12.0",
+ "ff_ce",
  "rand 0.4.6",
 ]
 
@@ -1200,16 +1214,16 @@ version = "0.1.0"
 dependencies = [
  "blstrs",
  "byteorder",
- "ff_ce 0.11.0",
+ "ff",
  "filecoin-hashers",
  "generic-array 1.0.0",
- "lazy_static",
  "merkletree",
  "neptune 13.0.0",
  "num-bigint 0.4.4",
  "num-traits",
  "poseidon_hash",
- "rand 0.4.6",
+ "rand 0.8.5",
+ "serde",
  "serde_json",
  "starknet-crypto",
  "typenum",

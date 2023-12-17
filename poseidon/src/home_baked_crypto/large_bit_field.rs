@@ -1,11 +1,7 @@
 // Simplist rust implementation changed slightly from https://github.com/arnaucube/poseidon-rs
-use super::large_constants;
-use ff::*;
 
-#[derive(PrimeField)]
-#[PrimeFieldModulus = "21888242871839275222246405745257275088548364400416034343698204186575808495617"]
-#[PrimeFieldGenerator = "7"]
-pub struct Fr(FrRepr);
+use super::*;
+use field::Fr;
 
 #[derive(Debug)]
 pub struct Constants {
@@ -19,8 +15,8 @@ pub fn load_constants() -> Constants {
     let mut c: Vec<Vec<Fr>> = Vec::new();
     for c_str_i in c_str.iter() {
         let mut cci: Vec<Fr> = Vec::new();
-        for c_str_ij in c_str_i.iter() {
-            let b: Fr = Fr::from_str(c_str_ij).unwrap();
+        for c_str_ij in c_str_i.into_iter() {
+            let b: Fr = Fr::from(*c_str_ij).unwrap();
             cci.push(b);
         }
         c.push(cci);

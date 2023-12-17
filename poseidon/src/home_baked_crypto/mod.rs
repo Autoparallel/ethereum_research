@@ -1,4 +1,3 @@
-
 /// A module for an algorithm (Grain LFSR) that generates round constants
 /// It was cooked a lot by the ai and hasn't been tested or used anywhere
 pub mod generate_constants;
@@ -11,4 +10,6 @@ mod large_constants;
 
 /// Probably the most important module to focus on since it will be our implementation over small field sizes
 pub mod small_bit_field;
+
+pub mod field;
 extern crate rand;

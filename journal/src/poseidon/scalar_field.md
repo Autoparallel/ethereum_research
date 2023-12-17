@@ -4,14 +4,15 @@ These are often called *finite fields* or, in particular when $k=1$, *prime fiel
 When $k>1$, these are called *extension fields* or *Galois fields*.
 Elliptic curves provide a natural way to construct scalar fields, and many modern cryptographic systems use elliptic curves.
 
-Many ZKP systems, especially zk-SNARKs, are built around elliptic curve cryptography (ECC). Using a scalar field derived from the same elliptic curve ensures that all operations are in the same field, which simplifies and optimizes computations.
-These come in the form of operations such as the [pairing computations](https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627), which are more efficiently conducted in the scalar field of an elliptic curve. 
-Scalar fields from elliptic curves often provide stronger security properties for a given field size compared to standard finite fields. 
-This is due to the more complex structure of elliptic curves, which can increase the difficulty of certain cryptographic attacks.
+Many ZKP systems, especially zk-SNARKs, are built around elliptic curve cryptography (ECC). 
+Using a scalar field derived from the same elliptic curve ensures that all operations are in the same field, simplifying and optimizing computations. 
+These come in the form of operations such as [pairing computations](https://medium.com/@VitalikButerin/exploring-elliptic-curve-pairings-c73c1864e627), which are more efficiently conducted in the scalar field of an elliptic curve. 
+Scalar fields from elliptic curves often provide more robust security properties than standard finite fields for a given field size. 
+These properties of elliptic curves are due to the more complex structure of elliptic curves, which can increase the difficulty of specific cryptographic attacks.
 
-For a given level of security, elliptic curves can often use smaller key sizes compared to algorithms based on standard finite fields. 
-This results in better performance and smaller memory usage, which is particularly advantageous in constrained environments.
-Since many modern cryptographic systems use elliptic curves, designing a hash function that operates in the same domain can facilitate better interoperability between different cryptographic primitives and protocols.
+For a given level of security, elliptic curves often use smaller critical sizes than algorithms based on standard finite fields. 
+This results in better performance and smaller memory usage, which is particularly advantageous in constrained environments. 
+Since many modern cryptographic systems use elliptic curves, designing a hash function that operates in the same domain can facilitate better interoperability between cryptographic primitives and protocols.
 
 ## Mathematical Details
 
@@ -19,7 +20,7 @@ Since many modern cryptographic systems use elliptic curves, designing a hash fu
 
 - **Prime Fields ($\mathbb{F}_p$):**
    - In a prime field, the operations of addition, subtraction, multiplication, and division (excluding division by zero) are defined modulo a prime number $p$. 
-   - Elliptic curves over prime fields are defined by equations with coefficients in $\mathbb{F}_p$ which we call the *scalar field*.
+   - Elliptic curves over prime fields are defined by equations with coefficients in $\mathbb{F}_p$, which we call the *scalar field*.
    - An example of such a curve is the [secp256r1 curve](https://neuromancer.sk/std/secg/secp256r1).
 
 - **Binary Fields ($\mathbb{F}_{2^k}$):**

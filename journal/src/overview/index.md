@@ -1,10 +1,10 @@
 # Diving into Poseidon hash and its security
-The purpose of is to document a thorough understanding of the Poseidon hash function and its security. 
+The purpose of this work is to document a thorough understanding of the Poseidon hash function and its security. 
 This document is a work in progress and will be updated as we and the community learn more about the topic.
 
 As a forewarning, this document is a continual work in progress.
 Material in here is subject to change, there may be errors, and there may be things that are not fully explained.
-We would love to hear your feedback and suggestions for improvement as well as any questions you may have.
+We would love to hear your feedback and suggestions for improvement and are happy to answer any questions you may have.
 Community engagement, open source development, and collaborative learning are core values for us, so please reach out!
 
 ## Contents
@@ -35,7 +35,7 @@ To understand something well, it is often helpful to implement it yourself.
 Plus, we are strong believers that researchers should be able to implement their own ideas and test them out.
 Researchers can be builders, and builders can do research (and love math!).
 
-### Idea
+### Intention
 The idea is to implement Poseidon in Rust and then use it to test out different ideas and attacks.
 The production versions of Poseidon should also be tested in their own right, but we plan to test the methodology of Poseidon and, given that, it is nice to make Poseidon less secure to demonstrate how to find collisions, find preimages, and orchestrate attacks all in one place and without it taking an unbelievable amount of time. 
 Keep in mind, searching through the space of all possible hashes is a very large space, so even with a noticeably less secure version of Poseidon, it will still take a long time to find collisions and preimages!

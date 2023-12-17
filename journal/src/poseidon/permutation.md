@@ -1,25 +1,25 @@
 # Permutation
-We've seen that POSEIDON uses a sponge construction to hash data, but the sponge alone is not enough to ensure security.
+We've seen that Poseidon uses a sponge construction to hash data, but the sponge alone is not enough to ensure security.
 This is a common theme in cryptography: we often need to add additional layers of complexity to ensure that our constructions are secure.
 Where one layer has a weakness, another layer can make up for it.
-The permutation is one such layer that POSEIDON uses to ensure security.
+The permutation is one such layer that Poseidon uses to ensure security.
 
 ## Permutation is like a blender
 
-Imagine the POSEIDON permutation as a process similar to using a kitchen blender to mix ingredients together.
+Imagine the Poseidon permutation as a process similar to using a kitchen blender to mix ingredients together.
 We can think of this in the context of the sponge construction, where the permutation is applied to the sponge's state to mix the input data with the existing state.
 
 1. **Initial Setup (State Initialization):**
    - Think of foods and liquids inside of the blender's jar as a represention of the internal state of the hash function. 
    When it's not blended, the ingredients are still separate and distinct, but once blended, they become a single mixture and are no longer distinguishable.
-   The unblended mixture corresponds to the initial state in the POSEIDON hash function.
+   The unblended mixture corresponds to the initial state in the Poseidon hash function.
     - **Blender Jar (Sponge Capacity):**
         - This blender jar  effectively represents the internal state of the sponge, which is called its "capacity." This capacity includes both the part of the state that interacts with the input (like absorbing ingredients) and the part that does not.
         - In cryptographic terms, the capacity is crucial for security. It's like having a larger jar that ensures even after adding and mixing ingredients, there's still space left that never directly interacts with the ingredients you add later. This 'unused space' in the jar is what guarantees the security of the hash function.
 
 2. **Adding Ingredients (Input Absorption):**
    - Each piece of data to be hashed is akin to adding another ingredient to the blender's jar. 
-   In POSEIDON, this involves integrating the input data into the internal state.
+   In Poseidon, this involves integrating the input data into the internal state.
    - **Amount of Food (Sponge Rate):**
         - The amount of food you can add at once to the blender is like the "rate" of the sponge. It's the portion of the sponge's capacity that directly interacts with the input data (or ingredients).
         - In the sponge construction, you can only absorb (or add) a certain amount of data in each round, just like you can only add a certain amount of food to the blender at once without overfilling it.

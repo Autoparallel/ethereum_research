@@ -29,9 +29,9 @@ This is part of the one-way nature of hash functions.
 - Collision resistance is crucial for cryptographic applications like digital signatures, where unique hash values are necessary to prevent fraud.
 
 ### Quick note
-When comparing second preimage resistance and collision resistance, I (Colin) found it helpful to think of second preimage resistance as a stronger version of collision resistance as otherwise the two seem very similar.
-Second preimage resistance is the property that given a specific input, it is hard to find another input that hashes to the same value whereas collision resistance is the property that it is hard to find any two inputs that hash to the same value.
-Your search space is confined in second preimage resistance since you have one fixed input, but in collision resistance, you can search over all possible inputs and keep track of which ones you have already tried and their hashes.
+When comparing second preimage and collision resistance, I (Colin) found it helpful to think of second preimage resistance as a more robust version of collision resistance as the two seem very similar otherwise.
+Second, preimage resistance is the property that, given a specific input, makes it hard to find another input that hashes to the same value. In contrast, collision resistance is the property that makes it hard to find any two inputs that hash to the same value.
+Your search space is confined in the second preimage resistance since you have one fixed input, but in collision resistance, you can search over all possible inputs and keep track of which ones you have already tried and their hashes.
 
 ### Why Do These Security Properties Matter?
 
@@ -57,11 +57,11 @@ There of course has been some existing formal analysis of the security of Poseid
 Algebraic attacks on cryptographic hash functions involve exploiting the algebraic properties and structures within the hash function. These attacks may attempt to solve equations that describe the hash function's behavior or find vulnerabilities in its algebraic representation. The Poseidon hash function's design and analysis likely include considerations to mitigate such attacks, but the exact methodologies and conclusions drawn in the paper are not accessible in this context.
 
 ## Interpolation Attack
-This type of attack attempts to construct an interpolation polynomial that accurately describes the hash function. If the number of unknown monomials in the polynomial is sufficiently large, constructing it becomes as hard as a brute-force attack. For Poseidon, the security against this type of attack is related to the number of different monomials in the interpolation polynomial, which in turn depends on the degree of the function.
+This attack attempts to construct an interpolation polynomial that accurately describes the hash function. If the number of unknown monomials in the polynomial is sufficiently large, constructing it becomes as hard as a brute-force attack. For Poseidon, the security against this type of attack is related to the number of different monomials in the interpolation polynomial, which depends on the degree of the function.
 
-The mathematical intuition behind this attack is that a higher number of rounds generally increases the complexity of the interpolation polynomial, making it more difficult for an attacker to accurately construct or exploit it. The parameters of the Poseidon hash function, including the size of the finite field (denoted by p), the number of S-boxes applied per round, and the algebraic properties of these S-boxes, directly influence the number of different monomials in the interpolation polynomial.
+The mathematical intuition behind this attack is that a higher number of rounds generally increases the complexity of the interpolation polynomial, making it more difficult for an attacker to construct or exploit it accurately. The parameters of the Poseidon hash function, including the size of the finite field (denoted by p), the number of S-boxes applied per round, and the algebraic properties of these S-boxes, directly influence the number of different monomials in the interpolation polynomial.
 
-The number of rounds required to prevent this attack denoted by the sum of partial and full rounds $R = RP +RF$ is bound by 
+The number of rounds required to prevent this attack, denoted by the sum of partial and full rounds $R = RP +RF$ is bound by 
 
 <!-- need to understand this more -->
 $$

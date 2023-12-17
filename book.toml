@@ -3,7 +3,7 @@ authors = ["Colin Roberts"]
 language = "en"
 multilingual = false
 src = "journal/src"
-title = "Ethereum Research"
+title = "POSEIDON Journal"
 
 [preprocessor.katex]
 after = ["links"]

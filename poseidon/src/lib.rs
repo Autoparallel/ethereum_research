@@ -1,15 +1,15 @@
 /// From scratch implementations of poseidon primitives for testing purposes.
 use num_bigint::BigUint;
-use num_traits::{One, Zero};
+use num_traits::Zero;
 
 pub mod implemenations;
 pub mod home_baked_crypto;
 
-const FIELD_SIZE: u32 = 8;
+// const FIELD_SIZE: u32 = 8;
 const STATE_SIZE: usize = 2;
 const RATE: usize = STATE_SIZE - 1;
 const CAPACITY: usize = 1;
-const ROUNDS: usize = 8;
+// const ROUNDS: usize = 8;
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -39,7 +39,6 @@ fn absorb(state: &mut Vec<BigUint>, input: &[BigUint]) {
 
 fn squeeze(state: &[BigUint], output_len: usize) -> Vec<BigUint> {
     let mut output = Vec::new();
-    let state = state.clone();
     while output.len() < output_len {
         output.extend_from_slice(&state[..RATE]);
         permute(&mut state.to_owned());

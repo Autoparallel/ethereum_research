@@ -25,10 +25,11 @@
 //     hash.pop().unwrap()
 // }
 
-// /// this test will call the above function on some implementations
-// #[test]
-// fn call_poseidon_hash() {
-//     let rng = &mut thread_rng();
-//     let input = Fr::rand(rng);
-//     poseidon_hash_rate_2_80_bits(&[input]);
-// }
+/// this test will call the above function on some implementations
+
+#[test]
+fn call_poseidon_hash() {
+    let rng = &mut thread_rng();
+    let input = Fr::rand(rng);
+    poseidon_hash_rate_2_80_bits(&[input]);
+}

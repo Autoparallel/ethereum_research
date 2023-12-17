@@ -3,6 +3,7 @@
 use num_bigint::BigUint;
 use num_traits::Zero;
 
+pub mod python_transcription;
 pub mod home_baked_crypto;
 pub mod implemenations;
 extern crate ff;

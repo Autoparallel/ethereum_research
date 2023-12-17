@@ -26,6 +26,7 @@ pub fn poseidon_hash_rate_2_80_bits(input: &[Fr]) -> Fr {
 }
 
 /// this test will call the above function on some implementations
+
 #[test]
 fn call_poseidon_hash() {
     let rng = &mut thread_rng();

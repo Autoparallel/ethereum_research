@@ -1,33 +1,40 @@
 use std::cmp::max;
 
-use ff::Field;
+use ff::*;
 use num_bigint::BigInt;
-use num_traits::{Zero, ToPrimitive, pow, One};
-
+use num_bigint::BigUint;
+use num_traits::{pow, One, ToPrimitive, Zero};
 
 
 pub struct Poseidon {
-    p: BigInt,
+    prime_field_modulus: BigUint,
+    // The security level measured in bits. Denoted `M` in the Poseidon paper.
     security_level: BigInt,
-    alpha: BigInt,
+    // Alpha is the power of the S-box
+    alpha: usize,
     input_rate: BigInt,
-    t: BigInt,
+    // The size of Poseidon's inner state.
+    state_size: BigInt,
+    // Number of full rounds. Denoted `R_F` in the Poseidon paper.
     full_round: Option<BigInt>,
+    // Number of partial rounds. Denoted `R_P` in the Poseidon paper.
     partial_round: Option<BigInt>,
+    // the mds matrix, TODO: should be a field element
     mds_matrix: Option<Vec<Vec<BigInt>>>,
     rc_list: Option<Vec<BigInt>>,
     prime_bit_len: Option<BigInt>,
+    // the state contents, TODO: should be a field element
     state: Vec<BigInt>,
     rc_counter: BigInt,
 }
 
 impl Poseidon {
     pub fn new(
-        p: BigInt,
+        prime_modulus: BigUint,
         security_level: BigInt,
-        alpha: BigInt,
+        alpha: usize,
         input_rate: BigInt,
-        t: BigInt,
+        state_size: BigInt,
         full_round: Option<BigInt>,
         partial_round: Option<BigInt>,
         mds_matrix: Option<Vec<Vec<BigInt>>>,
@@ -35,19 +42,28 @@ impl Poseidon {
         prime_bit_len: Option<BigInt>,
     ) -> Poseidon {
 
-
-        
-        if (alpha.clone() % (p.clone() - 1)) != BigInt::one() {
+        if (alpha % (prime_modulus.clone() - BigUint::from(1u32))) != BigUint::one() {
             println!("Not available alpha");
             std::process::exit(1);
         }
 
         let prime_bit_len = match prime_bit_len {
             Some(val) => val,
-            None => BigInt::from((p.bits() as f64).log2().ceil() as i64),
+            None => BigInt::from((prime_modulus.bits() as f64).log2().ceil() as i64),
         };
 
-        if BigInt::from(2).pow(security_level.clone().to_usize().unwrap().try_into().unwrap()) > p.clone().pow(t.clone().to_usize().unwrap().try_into().unwrap()) {
+        if BigInt::from(2).pow(
+            security_level
+                .clone()
+                .to_usize()
+                .unwrap()
+                .try_into()
+                .unwrap(),
+        ) > prime_modulus
+            .clone()
+            .pow(state_size.clone().to_usize().unwrap().try_into().unwrap())
+            .into()
+        {
             println!("Not secure");
         }
 
@@ -56,7 +72,7 @@ impl Poseidon {
             (Some(fr), Some(pr)) => {
                 let half_fr = fr.clone() / 2;
                 (fr, pr, half_fr)
-            },
+            }
             _ => {
                 // TODO: Implement rn.calc_round_numbers
                 (BigInt::zero(), BigInt::zero(), BigInt::zero())
@@ -69,40 +85,50 @@ impl Poseidon {
 
         let mds_matrix = match mds_matrix {
             Some(matrix) => {
-                if matrix.len() != t.to_usize().unwrap() || matrix[0].len() != t.to_usize().unwrap() {
+                if matrix.len() != state_size.to_usize().unwrap() || matrix[0].len() != state_size.to_usize().unwrap()
+                {
                     panic!("Invalid size of MDS matrix");
                 }
                 // TODO: Implement rc.get_field_matrix_from_hex_matrix
                 matrix
-            },
+            }
             None => {
                 println!("Initialize MDS matrix");
                 // TODO: Implement rc.mds_matrix_generator
-                vec![vec![BigInt::zero(); t.to_usize().unwrap()]; t.to_usize().unwrap()]
+                vec![vec![BigInt::zero(); state_size.to_usize().unwrap()]; state_size.to_usize().unwrap()]
             }
         };
 
         let rc_list = match rc_list {
             Some(list) => {
-                if list.len() != t.to_usize().unwrap() * (full_round.clone().to_usize().unwrap() + partial_round.clone().to_usize().unwrap()) {
+                if list.len()
+                    != state_size.to_usize().unwrap()
+                        * (full_round.clone().to_usize().unwrap()
+                            + partial_round.clone().to_usize().unwrap())
+                {
                     panic!("Invalid number of round constants");
                 }
                 // TODO: Implement field_p conversion
                 list
-            },
+            }
             None => {
                 println!("Initialize Round Constant");
                 // TODO: Implement rc.calc_round_constants
-                vec![BigInt::zero(); t.to_usize().unwrap() * (full_round.clone().to_usize().unwrap() + partial_round.clone().to_usize().unwrap())]
+                vec![
+                    BigInt::zero();
+                    state_size.to_usize().unwrap()
+                        * (full_round.clone().to_usize().unwrap()
+                            + partial_round.clone().to_usize().unwrap())
+                ]
             }
         };
 
         Poseidon {
-            p,
+            prime_field_modulus: prime_modulus,
             security_level,
             alpha,
             input_rate,
-            t,
+            state_size,
             full_round: Some(full_round),
             partial_round: Some(partial_round),
             mds_matrix: Some(mds_matrix),
@@ -117,11 +143,11 @@ impl Poseidon {
         pow(element.clone(), self.alpha.clone().to_usize().unwrap())
     }
 
-
     pub fn full_rounds(&mut self) {
         for _r in 0..self.full_round.clone().unwrap().to_usize().unwrap() {
-            for i in 0..self.t.to_usize().unwrap() {
-                self.state[i] = &self.state[i] + &self.rc_list.as_ref().unwrap()[self.rc_counter.to_usize().unwrap()];
+            for i in 0..self.state_size.to_usize().unwrap() {
+                self.state[i] = &self.state[i]
+                    + &self.rc_list.as_ref().unwrap()[self.rc_counter.to_usize().unwrap()];
                 self.rc_counter += 1;
 
                 self.state[i] = self.s_box(&self.state[i]);
@@ -129,9 +155,9 @@ impl Poseidon {
 
             // apply MDS matrix
             let mds_matrix = self.mds_matrix.as_ref().unwrap();
-            let mut new_state = vec![BigInt::zero(); self.t.to_usize().unwrap()];
-            for i in 0..self.t.to_usize().unwrap() {
-                for j in 0..self.t.to_usize().unwrap() {
+            let mut new_state = vec![BigInt::zero(); self.state_size.to_usize().unwrap()];
+            for i in 0..self.state_size.to_usize().unwrap() {
+                for j in 0..self.state_size.to_usize().unwrap() {
                     new_state[i] += &mds_matrix[i][j] * &self.state[j];
                 }
             }
@@ -141,8 +167,9 @@ impl Poseidon {
 
     pub fn partial_rounds(&mut self) {
         for _r in 0..self.partial_round.clone().unwrap().to_usize().unwrap() {
-            for i in 0..self.t.to_usize().unwrap() {
-                self.state[i] = &self.state[i] + &self.rc_list.as_ref().unwrap()[self.rc_counter.to_usize().unwrap()];
+            for i in 0..self.state_size.to_usize().unwrap() {
+                self.state[i] = &self.state[i]
+                    + &self.rc_list.as_ref().unwrap()[self.rc_counter.to_usize().unwrap()];
                 self.rc_counter += 1;
             }
 
@@ -150,9 +177,9 @@ impl Poseidon {
 
             // apply MDS matrix
             let mds_matrix = self.mds_matrix.as_ref().unwrap();
-            let mut new_state = vec![BigInt::zero(); self.t.to_usize().unwrap()];
-            for i in 0..self.t.to_usize().unwrap() {
-                for j in 0..self.t.to_usize().unwrap() {
+            let mut new_state = vec![BigInt::zero(); self.state_size.to_usize().unwrap()];
+            for i in 0..self.state_size.to_usize().unwrap() {
+                for j in 0..self.state_size.to_usize().unwrap() {
                     new_state[i] += &mds_matrix[i][j] * &self.state[j];
                 }
             }
@@ -160,8 +187,11 @@ impl Poseidon {
         }
     }
     pub fn run_hash(&mut self, mut input_vec: Vec<BigInt>) -> BigInt {
-        if input_vec.len() < self.t.to_usize().unwrap() {
-            input_vec.extend(vec![BigInt::zero(); self.t.to_usize().unwrap() - input_vec.len()]);
+        if input_vec.len() < self.state_size.to_usize().unwrap() {
+            input_vec.extend(vec![
+                BigInt::zero();
+                self.state_size.to_usize().unwrap() - input_vec.len()
+            ]);
         }
         self.state = input_vec;
         self.rc_counter = BigInt::zero();

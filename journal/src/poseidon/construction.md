@@ -1,5 +1,4 @@
 # Construction
-
 POSEIDON relies on a few different input parameters, each of which plays a role in the overall security of the hash as well as its speed and efficiency.
 - First, we choose a size $p$ of the finite field $\mathbb{F}_p$ to work with.
 Note that POSEIDON actually uses a prime field that arises as the scalar field of an elliptic curve, but for simplicity we will just think of it as a finite field. More on that can be found in the [scalar field section](poseidon/scalar_field.md).

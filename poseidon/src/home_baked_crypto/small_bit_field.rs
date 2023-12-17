@@ -1,7 +1,8 @@
 // Simplist rust implementation changed slightly from https://github.com/arnaucube/poseidon-rs
 extern crate rand;
-use super::large_constants;
+use super::{large_constants, generate_constants::generate_constants};
 use ff::*;
+use rand::Rng;
 
 // this implementation uses the mersen prime 131071 for the modulus which is from 2^(18 - 1)
 // there are two failling tests, my current suspicion is that they might need their own constants for each field size
@@ -18,8 +19,25 @@ pub struct Constants {
     pub n_rounds_f: usize,
     pub n_rounds_p: Vec<usize>,
 }
+
+/// so right now we read the c_str and m_str from the large_constants.rs file (the tests pass for that one)
+/// I am trying to figure out how to generate round constants for smaller field sizes this is a resource i found
+/// https://github.com/Autoparallel/ethereum_research/issues/30
 pub fn load_constants() -> Constants {
-    let (c_str, m_str) = large_constants::constants();
+
+    // This was my attempt to generate some arbitrary constants, but i am not sure if they are correct
+    let mut rng = rand::thread_rng();
+    let mut c_str: Vec<Vec<String>> = Vec::new(); // Temporarily store as Vec<Vec<String>>
+    for _ in 0..10 {
+        let mut inner: Vec<String> = Vec::new();
+        for _ in 0..10 {
+            let s: String = rng.gen::<u32>().to_string();
+            inner.push(s);
+        }
+        c_str.push(inner);
+    }
+    let c_str: Vec<Vec<&str>> = c_str.iter().map(|inner| inner.iter().map(AsRef::as_ref).collect()).collect(); // Convert to Vec<Vec<&str>>
+    let (c_str, m_str) = (c_str, large_constants::constants().1);
     let mut c: Vec<Vec<Fr>> = Vec::new();
     for c_str_i in c_str.iter() {
         let mut cci: Vec<Fr> = Vec::new();
@@ -69,12 +87,29 @@ impl Poseidon {
             constants: load_constants(),
         }
     }
+    /// The `ark` function is a part of the Poseidon hash function.
+    /// It adds round constants to the state.
+    ///
+    /// # Arguments
+    ///
+    /// * `state` - A mutable reference to the state vector.
+    /// * `c` - A reference to the round constants.
+    /// * `it` - The current iteration count.
     pub fn ark(&self, state: &mut Vec<Fr>, c: &[Fr], it: usize) {
         for i in 0..state.len() {
             state[i].add_assign(&c[it + i]);
         }
     }
 
+    /// The `sbox` function is a part of the Poseidon hash function.
+    /// It applies a nonlinear function to the state.
+    ///
+    /// # Arguments
+    ///
+    /// * `n_rounds_f` - The number of full rounds.
+    /// * `n_rounds_p` - The number of partial rounds.
+    /// * `state` - A mutable reference to the state vector.
+    /// * `i` - The current iteration count.
     pub fn sbox(&self, n_rounds_f: usize, n_rounds_p: usize, state: &mut [Fr], i: usize) {
         if i < n_rounds_f / 2 || i >= n_rounds_f / 2 + n_rounds_p {
             for state_elem in state.iter_mut() {
@@ -91,6 +126,17 @@ impl Poseidon {
         }
     }
 
+    /// The `mix` function is a part of the Poseidon hash function.
+    /// It applies a linear transformation to the state.
+    ///
+    /// # Arguments
+    ///
+    /// * `state` - A reference to the state vector.
+    /// * `m` - A reference to the matrix used for the linear transformation.
+    ///
+    /// # Returns
+    ///
+    /// * A new state vector after applying the linear transformation.
     pub fn mix(&self, state: &Vec<Fr>, m: &[Vec<Fr>]) -> Vec<Fr> {
         let mut new_state: Vec<Fr> = Vec::new();
         for i in 0..state.len() {
@@ -104,6 +150,17 @@ impl Poseidon {
         new_state.clone()
     }
 
+    /// The `hash` function is a part of the Poseidon hash function.
+    /// It applies the Poseidon hash function to the input.
+    ///
+    /// # Arguments
+    ///
+    /// * `inp` - A vector of field elements to be hashed.
+    ///
+    /// # Returns
+    ///
+    /// * A field element which is the result of the hash function.
+    /// * An error string if the input length is incorrect.
     pub fn hash(&self, inp: Vec<Fr>) -> Result<Fr, String> {
         let t = inp.len() + 1;
         if inp.is_empty() || inp.len() > self.constants.n_rounds_p.len() {
@@ -129,11 +186,12 @@ impl Poseidon {
 mod tests {
     use super::*;
 
+    /// test to check if from_repr and from_str are the same
     #[test]
     fn test_ff() {
         let a = Fr::from_repr(FrRepr::from(2)).unwrap();
         assert_eq!(
-            "0000000000000000000000000000000000000000000000000000000000000002",
+            "0000000000000002",
             to_hex(&a)
         );
 
@@ -142,12 +200,13 @@ mod tests {
         )
         .unwrap();
         assert_eq!(
-            "0000000000000000000000000000000000000000000000000000000000000002",
+            "000000000001c0d0",
             to_hex(&b)
         );
         assert_eq!(&a, &b);
     }
 
+    // might have to change this since we cahnged the field size
     #[test]
     fn test_hash() {
         let b0: Fr = Fr::from_str("0").unwrap();

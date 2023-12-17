@@ -113,6 +113,7 @@ impl Poseidon {
                 // TODO: Implement field_p conversion
                 list
             }
+            // Colin, maybe we can use something like this for the rc_list (round constants)
             None => {
                 println!("Initialize Round Constant");
                 // TODO: Implement rc.calc_round_constants

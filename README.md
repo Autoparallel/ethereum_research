@@ -10,6 +10,7 @@ This repository has two essential components; the first is written educational c
 
 ```bash
 cargo install mdbook
+cargo install mdbook-katex
 ```
 
 Then, you can run the journal with the following command:

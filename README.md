@@ -31,3 +31,5 @@ The second component of this repository is the `Poseidon/` directory, which cont
 
 These comprise a collection of at-home and production implementations, along with some examples of attacking the hash function with small field sizes. We hope this repository can serve as a learning resource for the Poseidon hash function and a place to experiment with the hash function in a safe environment.
 
+## Open Source
+We believe it is important to do this work in the public view and support collaboration and collective learning. 

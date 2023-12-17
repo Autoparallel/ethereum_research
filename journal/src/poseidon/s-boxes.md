@@ -1,11 +1,11 @@
 # S-Boxes
-POSEIDON uses S-boxes (Substitution boxes) to apply a non-linear transformation to the input data.
+Poseidon uses S-boxes (Substitution boxes) to apply a non-linear transformation to the input data.
 This non-linearity is crucial for security, as it makes the relationship between the input and output complex and difficult to reverse-engineer or predict.
 In particular, it strengthens the hash against linear and differential cryptanalysis.
 
-POSEIDON uses a specific type of S-boxes, which are based on integer powers of the input.
+Poseidon uses a specific type of S-boxes, which are based on integer powers of the input.
 This is in contrast to other S-boxes, say used in AES, which may use other types of functions like lookups, multiplicative inverses, or XOR.
-POSEIDON typically uses integer powers of the input, such as $x^3$ or $x^5$.
+Poseidon typically uses integer powers of the input, such as $x^3$ or $x^5$.
 
 ### Why Non-linearity Matters
 
@@ -45,7 +45,7 @@ In finite fields, the invertibility of functions like $x^3$ or $x^5$ depends on 
 
 ## Other kinds of S-boxes
 Substitution boxes (S-boxes) are crucial components in many cryptographic systems, used to perform non-linear transformations on input data. 
-While S-boxes like those in the POSEIDON hash function often use mathematical functions such as exponentiation in finite fields, there are various other designs and types of S-boxes used in different cryptographic algorithms. 
+While S-boxes like those in the Poseidon hash function often use mathematical functions such as exponentiation in finite fields, there are various other designs and types of S-boxes used in different cryptographic algorithms. 
 Some of these include the use of XOR operations, lookup tables, and more complex algebraic constructions.
 
 - **AES (Advanced Encryption Standard):**

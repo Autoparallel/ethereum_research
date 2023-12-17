@@ -9,13 +9,13 @@ Additionally, the paper details the cryptanalysis of Poseidon, emphasizing its r
 
 ## Reasoning
 Hash functions are ubiquitous in modern computing and cryptography, see the [curriculum section](../overview/curriculum.md) for more details.
-At a high level, hashing is an extremely important operation in computing since it provides a means of having a "random oracle" which is a function that maps input data to output data in a completely random way.
+At a high level, hashing is an extremely important operation in computing since it provides a means of having a "random oracle" which is a function that maps input data to output data in a completely "random" way.
 These random oracles are not only needed in computation (e.g., for mappings and other collections, data validation, compression, etc.) but are also used implicitly to take interactive arguments and convert them into non-interactive arguments (this is Shamir's trick).
 The reality is that we need hash functions for a lot of things, and we need them to be fast and secure.
 By secure, we mean that they are hard to invert (i.e., find preimages) and hard to find collisions (i.e., find two inputs that hash to the same output).
 This comes down the quality of the hash function's output distribution or randomness, which is a function of the hash function's design.
 
-The main reason why algebraic hash functions, in particular over their non-algebraic counterparts, are important today is their use in ZK/*ARK proving systems.
+The main reason why algebraic hash functions, in particular over their non-algebraic counterparts, are important today is their use in ZK proving systems.
 These systems rely on *arithmetization*. 
 In essence, arithmetization takes a computer algorithm and rewrites it in terms of a sequence polynomial operations which we can call *arithmetic circuits*.
 Operations such as $\mathtt{XOR}$ are fundamentally more expensive to arithmetize than their algebraic counterparts like addition and multiplication.

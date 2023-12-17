@@ -3,7 +3,18 @@ Poseidon has a few core building blocks that are used to construct the hash func
 Each of the building blocks have their own parameters, and the security of the hash function depends on the choice of these parameters.
 Poseidon implementations are built up by stringing these building blocks in a a flexible way, but the suggested implementations in the paper make specific choices due to their security and efficiency.
 
+The *Hades design strategy*, used in the Poseidon hash function, is a cryptographic approach that optimizes the trade-off between security and efficiency. 
+It incorporates a mix of full and partial rounds within the hash function. 
+Full rounds apply a non-linear operation (like an S-box) to all elements of the state, offering high security. 
+Partial rounds, on the other hand, apply this operation to only a subset of the state elements, enhancing efficiency. 
+This combination allows for maintaining strong cryptographic security while reducing the computational overhead typically associated with full rounds in every step. 
+This design is particularly beneficial in contexts like zero-knowledge proofs, where efficiency is crucial without compromising security. 
+The paper highlights how the choice of the MDS matrix in HADES significantly affects security against differential and linear attacks.
+
+
 ## Scalar Field
+
+A scalar field in the context of is a set of elements, along with operations of addition and multiplication, that follows certain rules (like commutativity, associativity, distributivity, and the existence of additive and multiplicative identities). 
 First, we choose a size $q$ of the finite field $\mathbb{F}_q$ to work with where $q=p^k$ for some prime $p$ and some integer $k$.
 Note that Poseidon actually uses a finite field that arises as the scalar field of an elliptic curve, but for simplicity we will just think of it as a finite field. 
 - This size $q$ will be an important security parameter for the hash function.
@@ -51,3 +62,12 @@ Security of the hash function from the linear layer depends on the choice of:
 - The choice of matrix used in the linear layer.
 
 For more details on the linear layer, see the [linear layer section](./linear_layer.md).
+
+### Substitution-Permutation Networks
+A Substitution-Permutation Network (SPN) is a method used in block cipher design. 
+It involves a series of linked operations, including substitution (replacing bits with other bits) and permutation (rearranging bits). 
+This structure is known for its effectiveness in creating confusion and diffusion, important principles in cryptography.
+
+A Partial SPN (PSPN) differs from a full SPN in that the substitution step is not applied to all bits in each round. 
+Instead, it substitutes only a subset of the bits, which can enhance efficiency while still maintaining a good level of security. 
+This selective application of substitution is the key difference between PSPN and full SPN designs.

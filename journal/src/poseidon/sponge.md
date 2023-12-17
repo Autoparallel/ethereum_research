@@ -48,10 +48,19 @@ The sponge construction is defined by the following parameters:
    - The rate $r$ which is the number of chunks absorbed in each step;
    - The capacity $c$ which is the number of chunks stored in the sponge in each step;
    - Note that at any given point in the process, we have $S = r + c$.
-- A function $f \colon \mathbb{F}_q^S \to \mathbb{F}_q^S$ which is the permutation applied to the sponge;
+- A function $f \colon \mathbb{F}_q^S \to \mathbb{F}_q^S$ which is the permutation applied to the sponge, which for Poseidon is a combination of S-Boxes and linear layers;
    - The rate can then be described via the `bits/perm` ratio which is the number of bits in the state divided by the number of bits in the permutation.
-- A padding function P (DO WE HAVE THIS IN THE POSEIDON PAPER?)
+- A padding function $P$ to pad the input to the sponge to a multiple of $r$ chunks as needed.
+
+For Poseidon in particular, we will follow this flow:
+1. Determine the capacity element value and the input padding if needed. 
+2. Split the obtained input into chunks of size r. 
+3. Apply the permutation Poseidon permuation $\pi$ (our $f$ above, essentially) to the capacity element and the first chunk. 
+4. Until no more chunks are left, add them into the state and apply the permutation. 
+5. Output $o$ output elements out of the rate part of the state. If needed, iterate the permutation more times.
 
 Looking at this diagramatically, we have the following:
 ![Sponge Diagram](./figures/sponge.png)
 
+
+TODO: It seems like the chunks are actually of size $r$ not $q$ from the field. 

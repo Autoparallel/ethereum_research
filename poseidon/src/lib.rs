@@ -1,11 +1,14 @@
 #![allow(clippy::too_many_arguments)]
+#![allow(dead_code)]
+#![allow(unused_imports)]
+#![allow(unused_variables)]
 /// From scratch implementations of poseidon primitives for testing purposes.
 use num_bigint::BigUint;
 use num_traits::Zero;
 
-pub mod python_transcription;
 pub mod home_baked_crypto;
 pub mod implemenations;
+pub mod python_transcription;
 extern crate ff;
 
 // const FIELD_SIZE: u32 = 8;

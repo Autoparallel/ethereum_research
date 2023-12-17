@@ -5,6 +5,9 @@ multilingual = false
 src = "journal/src"
 title = "POSEIDON Journal"
 
+[output.html]
+theme = "rust"
+
 [preprocessor.katex]
 after = ["links"]
 # KaTeX options.

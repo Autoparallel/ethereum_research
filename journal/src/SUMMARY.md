@@ -16,6 +16,7 @@
     - [Linear Cryptanalysis](./security/linear_cryptanalysis.md)
     - [Differential Cryptanalysis](./security/differential_cryptanalysis.md)
     - [Algebraic Cryptanalysis](./security/algebraic_cryptanalysis.md)
+    - [New Thoughts](./security/new_thoughts.md)
 
 - [Resources](./resources/index.md)
     - [Papers and books](./resources/papers_books.md)

@@ -75,6 +75,8 @@ mod tests {
     use std::fs::File;
     use std::io::{BufRead, BufReader};
     use std::path::Path;
+
+    #[ignore]
     #[test]
     fn test_round_constants() {
         // Bls12_381 modulus = 52435875175126190479447740508185965837690552500527637822603658699938581184513

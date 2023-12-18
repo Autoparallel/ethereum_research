@@ -1,0 +1,11 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  mdbook:
+    build: .
+    container_name: poseidon
+    volumes:
+      - .:/book
+    ports:
+      - 8899:8899

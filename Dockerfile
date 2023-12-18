@@ -1,15 +1,22 @@
 # Dockerfile
-FROM rust:1.54 as builder
+FROM ubuntu:latest as builder
 
-WORKDIR /usr/src
+RUN apt-get update && \
+    apt-get install -y curl gcc
 
-RUN cargo install mdbook
+WORKDIR /tmp
 
-RUN cargo install mdbook-katex
+RUN curl https://sh.rustup.rs -sSf > rustup.sh
+RUN chmod 755 rustup.sh
+RUN ./rustup.sh -y
+RUN rm /tmp/rustup.sh
+
+RUN $HOME/.cargo/bin/cargo install mdbook
+RUN $HOME/.cargo/bin/cargo install mdbook-katex
 
 FROM debian:buster-slim
 
-COPY --from=builder /usr/local/cargo/bin/mdbook /usr/local/bin/mdbook
+COPY --from=builder /root/.cargo/bin/mdbook /usr/local/bin/mdbook
 
 WORKDIR /book
 

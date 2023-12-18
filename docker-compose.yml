@@ -5,6 +5,7 @@ services:
   mdbook:
     build: .
     container_name: poseidon
+    network_mode: host
     volumes:
       - .:/book
     ports:

@@ -1,23 +1,22 @@
-# Dockerfile
-FROM ubuntu:latest as builder
+# Use Fedora as the base image
+FROM fedora:latest
 
-RUN apt-get update && \
-    apt-get install -y curl gcc
+# Update and install necessary packages
+RUN dnf update -y && \
+    dnf install -y curl gcc
 
-WORKDIR /tmp
+# Install Rust
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-RUN curl https://sh.rustup.rs -sSf > rustup.sh
-RUN chmod 755 rustup.sh
-RUN ./rustup.sh -y
-RUN rm /tmp/rustup.sh
+# Set the environment variable for cargo
+ENV PATH="/root/.cargo/bin:${PATH}"
 
-RUN $HOME/.cargo/bin/cargo install mdbook
-RUN $HOME/.cargo/bin/cargo install mdbook-katex
+# Install mdbook and mdbook-katex
+RUN cargo install mdbook && \
+    cargo install mdbook-katex
 
-FROM debian:buster-slim
-
-COPY --from=builder /root/.cargo/bin/mdbook /usr/local/bin/mdbook
-
+# Set the working directory
 WORKDIR /book
 
+# Command to run mdbook
 CMD ["mdbook", "serve", "--hostname", "0.0.0.0", "--port", "8899"]
